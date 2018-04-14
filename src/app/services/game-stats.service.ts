@@ -1,107 +1,83 @@
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Score } from '../classes/score';
-import { Game } from '../classes/game';
-import {BLOCKS} from '../fourBlocks';
-import * as firebase from 'firebase/app';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 
 
+export enum GameState {
+  Initial = 'intital',
+  Waiting = 'waiting',
+  Game = 'game',
+  Results = 'results'
+}
+
+interface Tap {
+  index: number;
+  name: string;
+}
 
 @Injectable()
-export class GameStatsService {
+export class GameStateService {
+  scores: Observable<{ name: string; value: any; }[]>;
 
-  gameRef: any;
+  points: number[];
+  taps: Observable<{}[]>;
+  state: Observable<{}>;
 
-  gameRunningRef: any;
+  constructor(private userService: UserService, private readonly db: AngularFireDatabase) {
+    this.state = db.object('game').valueChanges();
+    this.taps = db.list('taps').valueChanges();
 
-  waitingRef: any;
-
-  waiting: boolean;
-
-  topScoreRef: any;
-
-  topScore: Score;
-
-  lastWinner: Score;
-
-
-  constructor(private userService: UserService) {
-    this.gameRunningRef = firebase.database().ref('gameCurrentlyRunning').set(false);
-  }
-
-  createNewGame(): any {
-    // grab the current datetime to use as the id
-    // create a blank game template
-    const key = firebase.database().ref().child('games').push().key;
-    const newGame: Game = {
-      id: key,
-      waiting: true,
-      topScore: {score: 0, displayName: ''},
-      winner: {score: 0, displayName: ''},
-      blocks: BLOCKS };
-
-    // set up the reference to the current game
-    // subscribe to changes in the game
-    this.gameRef = firebase.database().ref(`games/${key}`).set(newGame);
-    // this.subscription = this.gameRef.valueChanges()
-    //  .subscribe(game => this.currentGame = game);
-  }
-
-  subscribe(rootRef): void {
-    // set up refs
-    this.waitingRef = rootRef.child('waiting');
-    this.topScoreRef = rootRef.child('topScore');
-
-    // listen to changes
-    this.waitingRef.on('value', snapshot => {
-      this.waiting = snapshot.val();
+    db.list<Tap>('taps').valueChanges().subscribe((taps: Tap[]) => {
+      this.points = [0, 0, 0, 0];
+      return taps.forEach((tap: Tap) => {
+        this.points[tap.index]++;
+      });
     });
-    this.topScoreRef.on('value', snapshot => {
-      this.topScore = snapshot.val();
+
+    this.scores = db.list<Tap>('taps').valueChanges().map((taps: Tap[]) => {
+      this.points = [0, 0, 0, 0];
+
+      const results = taps.reduce((scores: { [key: string]: number }, tap: Tap) => {
+        scores[tap.name] = scores[tap.name] || 0;
+
+        if (this.points[tap.index] % 2 === 0) {
+          scores[tap.name] += 20;
+        } else {
+          scores[tap.name] -= 5;
+        }
+
+        this.points[tap.index]++;
+        return scores;
+      }, {});
+
+      const resultsArr = Object.keys(results).map(name => ({
+        name, value: results[name]
+      }));
+
+
+      return resultsArr;
     });
   }
 
-  wait(): any {
-    setTimeout(() => {
-      const flip = { waiting : false };
-      return this.gameRef.update(flip);
-    }, 30000);
+
+  addTap(info) {
+    this.db.list('taps').push(info);
   }
 
-  flipTheFlag(): void {
-    const currently = this.gameRunningRef.val();
-    this.gameRunningRef.set(!currently);
+  reset() {
+    this.db.object('game').update({state: GameState.Initial});
   }
 
-  endGame(): void {
-    setTimeout(() => {
-      this.flipTheFlag();
-      this.lastWinner = this.gameRef.child('topScore').val();
-     // this.subscription.unsubscribe();
-    }, 600000000);
+  startGame() {
+    this.db.object('game').update({state: GameState.Game});
   }
 
-  startGame(): void {
-    this.flipTheFlag();
-    this.createNewGame();
-    this.subscribe(this.gameRef);
-    // wait 30 seconds for the game to start
-    this.wait();
-    // This part is either unnecessary, or needs to be expanded throughout the rest of the code
-    this.endGame();
+  startWaiting() {
+    this.db.object('game').update({state: GameState.Waiting});
   }
 
-
-  gameStarted(): boolean {
-    return this.gameRunningRef.val();
+  finish() {
+    this.db.object('game').update({state: GameState.Results});
   }
-
-  updateTopScore(score: Score): void {
-    this.gameRef.update({score: score});
-  }
-
-  updateUserScore(score: number): void {
-    this.userService.currentUser.score = score;
-  }
-
 }

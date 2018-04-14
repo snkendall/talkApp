@@ -1,8 +1,8 @@
 <div *ngIf="visible()" class="blockGrid">
-    <div class="blockRow" *ngFor="let block of blocks">
-      <img class="catPic" src="{{block.photoURL}}" (click)="tapBlock(block)">
+    <div class="blockRow" *ngFor="let block of blocks; let i = index">
+      <img class="catPic" src="{{block.photoURL}}" (click)="tapBlock(i)">
       <div class="tapCount">
-        Tap Count: {{block.tapCount}}
+        Tap Count: {{gameService.points[i]}}
       </div>
     </div>
 </div>

@@ -1,0 +1,7 @@
+<app-sign-in></app-sign-in>
+<h2>state: {{(state.state | async )?.state}}</h2>
+<button (click)="state.reset()">reset</button>
+<button (click)="state.startWaiting()">go to waitin</button>
+<button (click)="state.startGame()">Start</button>
+<button (click)="state.finish()">finish</button>
+
