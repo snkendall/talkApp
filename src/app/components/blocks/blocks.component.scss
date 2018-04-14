@@ -1,0 +1,18 @@
+
+.blockGrid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.blockRow {
+  width: 50%;
+}
+
+.catPic {
+  width: 90%;
+  cursor: pointer;
+}
+.tapCount {
+  font-size: 3em;
+  padding: 20px;
+}
