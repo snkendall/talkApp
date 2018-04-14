@@ -11,33 +11,35 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { environment } from '../environments/environment';
 import { UserService } from './services/user.service';
-import { TopScoreService } from './services/AAAtop-score.service';
-import { PlayerService } from './services/AAAplayer.service';
-import { GameStatsService } from './services/game-stats.service';
+import { GameStateService } from './services/game-stats.service';
 import { HomeComponent } from './components/home/home.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-import { GameButtonComponent } from './components/game-button/game-button.component';
-import { StartCountdownComponent } from './components/start-countdown/start-countdown.component';
-import { TopScoreComponent } from './components/top-score/top-score.component';
+
+
 import { BlocksComponent } from './components/blocks/blocks.component';
-import { ResultsComponent } from './components/results/results.component';
+
+import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from './admin/admin.component';
 
 export const firebaseConfig = environment.firebaseConfig;
+
+const routes: Routes = [
+  {path: 'admin', component: AdminComponent},
+  {path: 'hi', component: HomeComponent},
+]
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     SignInComponent,
-    GameButtonComponent,
-    StartCountdownComponent,
-    TopScoreComponent,
     BlocksComponent,
-    ResultsComponent
+    AdminComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule.forRoot(routes),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -45,10 +47,9 @@ export const firebaseConfig = environment.firebaseConfig;
   ],
   providers: [
     UserService,
-    TopScoreService,
-    PlayerService,
-    GameStatsService
+    GameStateService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

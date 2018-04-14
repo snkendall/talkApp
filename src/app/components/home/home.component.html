@@ -1,12 +1,30 @@
-
-<app-game-button></app-game-button>
-
+lol hi
 <app-sign-in></app-sign-in>
+<div *ngIf="(state.state | async )?.state === GameState.Initial">
+  <h2>Nothing is happening, come later</h2>
+</div>
+<div *ngIf="(state.state | async )?.state === GameState.Waiting">
+  <h1>Hello everyone the game is sstarting soond</h1>
+  <img src="cat" alt="">
+  <h1>join here: ULR</h1>
+</div>
+<div *ngIf="(state.state | async )?.state === GameState.Game">
+  <app-blocks></app-blocks>
+</div>
+<div *ngIf="(state.state | async )?.state === GameState.Results">
+  <h2>Scoreboard</h2>
+  <pre>{{state.scores|async|json}}</pre>
+</div>
 
-<app-start-countdown></app-start-countdown>
 
-<app-top-score></app-top-score>
+<!--<app-game-button></app-game-button>-->
 
-<app-blocks></app-blocks>
 
-<app-results></app-results>
+
+<!--<app-start-countdown></app-start-countdown>-->
+
+<!--<app-top-score></app-top-score>-->
+
+
+
+<!--<app-results></app-results>-->

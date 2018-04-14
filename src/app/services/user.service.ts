@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase/app';
 import { User } from '../classes/AAAuser';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class UserService {
 
   currentUser = null;
 
-  auth: any;
-
-  constructor() {
-    this.auth = firebase.auth();
-    this.auth().authState.subscribe( userData => {
+  constructor(private readonly afAuth: AngularFireAuth) {
+    afAuth.authState.subscribe( userData => {
       this.currentUser = userData;
     });
   }
@@ -24,13 +22,13 @@ export class UserService {
     return this.currentUser;
   }
 
-  getName(): any {
+  get name(): any {
     return this.authenticated ? this.currentUser.displayName : '';
   }
 
   login(): void {
     const provider = new firebase.auth.GoogleAuthProvider();
-    this.auth.signInWithPopup(provider).then(response => {
+    this.afAuth.auth.signInWithPopup(provider).then(response => {
       this.currentUser = response.user;
       this.currentUser.score = 0;
     });
@@ -38,7 +36,7 @@ export class UserService {
   }
 
   logOut(): void {
-    this.auth.signOut();
+    this.afAuth.auth.signOut();
     this.currentUser = null;
   }
 
