@@ -7,17 +7,13 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-
 import { environment } from '../environments/environment';
+
 import { UserService } from './services/user.service';
 import { GameStateService } from './services/game-stats.service';
 import { HomeComponent } from './components/home/home.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-
-
 import { BlocksComponent } from './components/blocks/blocks.component';
-
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './components/admin/admin.component';
 
@@ -26,7 +22,7 @@ export const firebaseConfig = environment.firebaseConfig;
 const routes: Routes = [
   {path: 'admin', component: AdminComponent},
   {path: '', component: HomeComponent},
-]
+];
 
 @NgModule({
   declarations: [
@@ -42,8 +38,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFireAuthModule
   ],
   providers: [
     UserService,

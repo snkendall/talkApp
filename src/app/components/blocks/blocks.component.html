@@ -2,9 +2,9 @@
     <div class="blockRow" *ngFor="let block of blocks; let i = index">
       <img class="catPic" src="{{block.photoURL}}" (click)="tapBlock(i)">
       <div class="tapCount">
-        Tap Count: {{gameService.points[i]}}
+        Tap Count: {{gameService.tapCountArray[i]}}
       </div>
     </div>
 </div>
-=
+
 

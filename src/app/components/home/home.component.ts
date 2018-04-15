@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import{ Component, OnInit } from '@angular/core';
 import { GameState, GameStateService } from '../../services/game-stats.service';
 
 @Component({
