@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { User } from '../classes/AAAuser';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 
@@ -18,12 +17,8 @@ export class UserService {
     return this.currentUser !== null;
   }
 
-  getUser(): User {
-    return this.currentUser;
-  }
-
   get name(): any {
-    return this.authenticated ? this.currentUser.displayName : '';
+    return this.authenticated() ? this.currentUser.displayName : '';
   }
 
   login(): void {

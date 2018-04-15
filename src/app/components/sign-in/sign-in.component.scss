@@ -1,0 +1,23 @@
+.authButtons {
+  float: right;
+  font-family: sans-serif;
+  font-size: 2vh;
+  margin-right: 4vw;
+  margin-top: -3vh;
+  height: 3vh;
+  border-radius: 10%;
+}
+
+.signIn {
+  background-color: cornflowerblue;
+  color: black;
+}
+
+.signOut {
+  background-color: grey;
+  color: darkgrey;
+}
+
+.clearFloat {
+  padding: 2vh;
+}

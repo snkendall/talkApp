@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GameStateService } from '../services/game-stats.service';
+import { GameStateService } from '../../services/game-stats.service';
 
 @Component({
   selector: 'app-admin',
@@ -7,10 +7,5 @@ import { GameStateService } from '../services/game-stats.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  constructor(
-    readonly state: GameStateService,
-
-              ) {
-
-  }
+  constructor(readonly state: GameStateService) {}
 }

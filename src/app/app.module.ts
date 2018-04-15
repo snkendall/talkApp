@@ -19,13 +19,13 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { BlocksComponent } from './components/blocks/blocks.component';
 
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './admin/admin.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 export const firebaseConfig = environment.firebaseConfig;
 
 const routes: Routes = [
   {path: 'admin', component: AdminComponent},
-  {path: 'hi', component: HomeComponent},
+  {path: '', component: HomeComponent},
 ]
 
 @NgModule({

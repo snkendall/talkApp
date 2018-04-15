@@ -1,4 +1,7 @@
-import { Block } from './classes/block';
+class Block {
+  photoURL: string;
+  tapCount: number;
+}
 
 export const BLOCKS: Block[] = [
     {photoURL: 'https://2.bp.blogspot.com/-oqidhe2FXvc/V4aTZooQ03I/AAAAAAABo2Q/xYRG4tmSvPgcWTXwhGVu2Waj2IM4y5kAQCLcB/s1600/funny-cats-215-26.jpg', tapCount: 0},

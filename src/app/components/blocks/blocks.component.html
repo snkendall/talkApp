@@ -1,4 +1,4 @@
-<div *ngIf="visible()" class="blockGrid">
+<div class="blockGrid">
     <div class="blockRow" *ngFor="let block of blocks; let i = index">
       <img class="catPic" src="{{block.photoURL}}" (click)="tapBlock(i)">
       <div class="tapCount">
@@ -6,19 +6,5 @@
       </div>
     </div>
 </div>
-
-  <!--<div *ngIf="visible()" class="blockGrid">-->
-    <!--<div class="blockRow" *ngFor="let block of firstBlockArray">-->
-      <!--<img class="catPic" src="{{block.photoURL}}" (click)="tapBlock(block)">-->
-      <!--<div class="tapCount">-->
-        <!--<p>Tap Count: {{block.tapCount}}</p>-->
-      <!--</div>-->
-      <!--&lt;!&ndash;I would like to apologize in advance for this copy and paste &ndash;&gt;-->
-      <!--<div class="blockRow" *ngFor="let block of secondBlockArray">-->
-        <!--<img class="catPic" src="{{block.photoURL}}" (click)="tapBlock(block)">-->
-        <!--<div class="tapCount">-->
-          <!--<p>Tap Count: {{block.tapCount}}</p>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+=
 

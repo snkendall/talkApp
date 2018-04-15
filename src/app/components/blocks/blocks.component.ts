@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameStateService } from '../../services/game-stats.service';
-import { BLOCKS } from '../../fourBlocks';
-import { Block } from '../../classes/block';
 import {UserService} from '../../services/user.service';
+import { BLOCKS } from '../../fourBlocks';
 
 @Component({
   selector: 'app-blocks',
@@ -20,12 +19,7 @@ export class BlocksComponent implements OnInit {
   ngOnInit() {
   }
 
-  visible(): boolean {
-    return true;
-    // return !this.gameService.waiting && this.gameService.gameStarted();
-  }
-
-  tapBlock(block: Block): void {
+  tapBlock(block): void {
     this.gameService.addTap({
       name: this.user.name,
       index: block

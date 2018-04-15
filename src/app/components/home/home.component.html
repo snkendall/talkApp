@@ -1,30 +1,24 @@
-lol hi
-<app-sign-in></app-sign-in>
 <div *ngIf="(state.state | async )?.state === GameState.Initial">
-  <h2>Nothing is happening, come later</h2>
+  <h2 class="stagingText">No game is currently running.</h2>
+  <h3 class="stagingText">Please come back later.</h3>
+  <div class="centeredPicContainer">
+    <img class="grumpyPic" src="http://athenaposters.ca/wp-content/uploads/2017/03/RP14303-Grumpy-Cat-Go-Away.jpg" alt="Grumpy Cat Says 'Go Away'" />
+  </div>
 </div>
 <div *ngIf="(state.state | async )?.state === GameState.Waiting">
-  <h1>Hello everyone the game is sstarting soond</h1>
-  <img src="cat" alt="">
-  <h1>join here: ULR</h1>
+  <h1 class="stagingText">Welcome to Tap Cat!</h1>
+  <h2 class="stagingText">A new game is about to start!</h2>
+  <h3 class="stagingText">If you haven't already, please sign in to play.</h3>
+  <div class="centeredPicContainer">
+    <img class="tapCat" src="https://images.techhive.com/images/article/2013/05/tablet_cat-100038149-orig.jpg" alt="">
+  </div>
 </div>
 <div *ngIf="(state.state | async )?.state === GameState.Game">
   <app-blocks></app-blocks>
 </div>
 <div *ngIf="(state.state | async )?.state === GameState.Results">
-  <h2>Scoreboard</h2>
+  <h2 class="stagingText">Scoreboard</h2>
   <pre>{{state.scores|async|json}}</pre>
 </div>
 
 
-<!--<app-game-button></app-game-button>-->
-
-
-
-<!--<app-start-countdown></app-start-countdown>-->
-
-<!--<app-top-score></app-top-score>-->
-
-
-
-<!--<app-results></app-results>-->

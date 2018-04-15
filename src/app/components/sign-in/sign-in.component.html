@@ -1,2 +1,3 @@
-<button *ngIf="signInVisible" class="sign-in" (click)="login()">Sign In</button>
-<button *ngIf="!signInVisible" class="sign-out" (click)="logOut()">Log Out</button>
+<button class="authButtons signIn" *ngIf="signInVisible" (click)="login()">Sign In</button>
+<button class="authButtons signOut" *ngIf="!signInVisible" (click)="logOut()">Log Out</button>
+<div class="clearFloat">  </div>

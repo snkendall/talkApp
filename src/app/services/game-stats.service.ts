@@ -18,36 +18,42 @@ interface Tap {
 
 @Injectable()
 export class GameStateService {
+
   scores: Observable<{ name: string; value: any; }[]>;
 
-  points: number[];
+  tapCountArray: number[];
+
   taps: Observable<{}[]>;
+
   state: Observable<{}>;
 
   constructor(private userService: UserService, private readonly db: AngularFireDatabase) {
+
     this.state = db.object('game').valueChanges();
     this.taps = db.list('taps').valueChanges();
 
+    // is the above subscription for taps necessary???
     db.list<Tap>('taps').valueChanges().subscribe((taps: Tap[]) => {
-      this.points = [0, 0, 0, 0];
+      this.tapCountArray = [0, 0, 0, 0];
       return taps.forEach((tap: Tap) => {
-        this.points[tap.index]++;
+        this.tapCountArray[tap.index]++;
       });
     });
 
     this.scores = db.list<Tap>('taps').valueChanges().map((taps: Tap[]) => {
-      this.points = [0, 0, 0, 0];
+
+      this.tapCountArray = [0, 0, 0, 0];
 
       const results = taps.reduce((scores: { [key: string]: number }, tap: Tap) => {
         scores[tap.name] = scores[tap.name] || 0;
 
-        if (this.points[tap.index] % 2 === 0) {
+        if (this.tapCountArray[tap.index] % 2 === 0) {
           scores[tap.name] += 20;
         } else {
           scores[tap.name] -= 5;
         }
 
-        this.points[tap.index]++;
+        this.tapCountArray[tap.index]++;
         return scores;
       }, {});
 
@@ -55,14 +61,14 @@ export class GameStateService {
         name, value: results[name]
       }));
 
+      resultsArr.sort((userA, userB) => userA.value - userB.value);
 
       return resultsArr;
     });
   }
 
-
-  addTap(info) {
-    this.db.list('taps').push(info);
+  addTap(tapInfo) {
+    this.db.list('taps').push(tapInfo);
   }
 
   reset() {
